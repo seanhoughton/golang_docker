@@ -1,7 +1,8 @@
 FROM golang:1.10-alpine
 
 RUN apk add --no-cache \
-        docker
+        docker \
+        make
 
 RUN set -x && \
     apk add --no-cache -t .deps ca-certificates curl && \
