@@ -2,6 +2,7 @@ FROM golang:1.11rc2-alpine3.7
 
 RUN apk add --no-cache \
     docker \
+    git \
     make
 
 RUN apk --no-cache add ca-certificates openssl && \
