@@ -4,22 +4,9 @@ RUN apk add --no-cache \
     docker \
     make
 
-RUN set -x && \
-    apk add --no-cache -t .deps ca-certificates curl && \
-    # Install glibc on Alpine (required by docker-compose) from
-    # https://github.com/sgerrand/alpine-pkg-glibc
-    # See also https://github.com/gliderlabs/docker-alpine/issues/11
-    GLIBC_VERSION='2.23-r3' && \
-    curl -Lo /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub && \
-    curl -Lo glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION/glibc-$GLIBC_VERSION.apk && \
-    curl -Lo glibc-bin.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION/glibc-bin-$GLIBC_VERSION.apk && \
-    apk update && \
-    apk add glibc.apk glibc-bin.apk && \
-    rm -rf /var/cache/apk/* && \
-    rm glibc.apk glibc-bin.apk && \
-    \
-    # Clean-up
-    apk del .deps
+RUN apk --no-cache add ca-certificates openssl && \
+    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    apk --no-cache -X https://apkproxy.herokuapp.com/sgerrand/alpine-pkg-glibc add glibc glibc-bin
 
 RUN set -x && \
     apk add --no-cache -t .deps ca-certificates curl && \
