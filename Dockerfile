@@ -1,4 +1,4 @@
-FROM golang:1.14.2
+FROM golang:1.15.5
 
 RUN apt-get update && \
     apt-get -y install \
@@ -32,3 +32,6 @@ RUN set -x && \
     # Basic check it works
     docker-compose version \
     && rm -rf /var/lib/apt/lists/*
+
+# binary will be $(go env GOPATH)/bin/golangci-lint
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.32.2
